@@ -1,0 +1,36 @@
+<div class="row">
+    <ng-container class="d-flex justify-content-center"
+        *ngFor="let author of authors | slice: (page-1) * pageSize : page * pageSize; let i = index">
+        <div class="col d-flex align-items-stretch">
+            <div class="card" style="margin-bottom: 20px;">
+                <div class="card-link">
+                    <div *ngIf="author.isFav ; else otherWise">
+                        <button class="btn btn-danger" (click)="toggleFavt(author)">Remove Favt.</button>
+                    </div>
+                    <ng-template #otherWise>
+                        <button class="btn btn-primary" (click)="toggleFavt(author)">Add Favt.</button>
+                    </ng-template>
+                </div>
+                <div class="card-body">
+                    <p class="card-text m2">
+                        <b>Name:</b> {{ author.name }} <br>
+                        <b>Bio:</b> {{ author.bio }} <br>
+                        <b>Link:</b> {{ author.link }}
+                    </p>
+                </div>
+            </div>
+        </div>
+        <div *ngIf="(i+1)%2 === 0" class="w-100"></div>
+    </ng-container>
+</div>
+
+<div *ngIf="authors.length>pageSize">
+    <div class="d-flex justify-content-center">
+        <ngb-pagination [collectionSize]="authors.length" [(page)]="page" [pageSize]="pageSize" [maxSize]="1"
+            [rotate]="true" [ellipses]="true" aria-label="Default pagination">
+        </ngb-pagination>
+    </div>
+</div>
+<div *ngIf="authors.length === 0">
+    <h5 class="text-center">No Favourite Author to Show</h5>
+</div>
